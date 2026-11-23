@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="caredesklogo.jpeg" type="image/png">
+</head>
+<body data-require="any">
+    <nav class="dashboard-nav">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="#" alt="CareDesk Clinic Logo">
+            </a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="emergency-hub.html">Emergency Hub</a></li>
+                <li><a href="#" class="logout-btn" onclick="logout(event)">Logout</a></li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <div>
+        <div>
+            <h1>Live Health Advisories & Emergency Locator </h1>
+            <p>Real time environmental tracking and regional emergency resource coordination powered by external APIs.</p>
+
+        </div>
+    <div>
+        <div>
+            <h3>Live environmental & Air quality advisory.</h3>
+        <span> Live API feed</span>
+
+        </div>
+        <div id="advisory-box">
+            <p>Fetching local meteorological and air quality data ...</p>
+        </div> 
+    </div>
+        <div> 
+            <div>
+                <h3>Find nearby Emergency centers</h3>
+            </div>
+            <input type="text" id="center-search" placeholder="Search by facility name or specialization...">
+            <div id="centers-list"></div>
+        </div>
+    </div>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+   <script src="supabase-init.js"></script>
+   <script src="auth-check.js"></script>
+   <script src="emergency-hub.js"></script>
+</body>
+</html>

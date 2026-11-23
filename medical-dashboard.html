@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="caredesklogo.jpeg" type="image/png">
+</head>
+<body data-require="medical">
+    <nav class="dashboard-nav">
+        <a href="index.html" class="logo">
+            <img src="#" alt="CareDesk Clinic Logo">
+        </a>
+        <div class="nav-links">
+            <button id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/light Mode">Light</button>
+            <button id="intakeBtn" class="nav-btn">Intake Requests</button>
+            <button id="emergencyBtn" class="nav-btn">Emergency alerts</button>
+            <button id="logoutBtn" class="nav-btn">Logout</button>
+        </div>
+    </nav>
+    <div>
+        <h1>Medical staff Dashboard</h1>
+        <div id="emergencySection">
+            <h2>Emergency Alerts</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Full name</th>
+                        <th>Phone number</th>
+                        <th>Location Coordinates</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="emergencyTablebody">
+                   <tr><td colspan=5>Loading Emergency records...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="intakesection">
+            <h2>Intake Requests</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="intakeTablebody">
+                   <tr><td colspan=4>Loading Intake records...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"> </script>
+    <script src="supabase-init.js"></script>
+    <script src="auth-check.js"></script>
+    <script src="dashboard-logic.js"></script>
+</body>
+</html>

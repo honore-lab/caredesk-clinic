@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareDesk Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="caredesklogo.jpeg" type="image/png">
+</head>
+<body>
+     <nav>
+        <div class="container">
+            <a href="#home" class="logo">
+                <img src="#" alt="CareDesk Clinic Logo">
+            </a>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#emergency">Emergency</a></li>
+            <li><a href="#intake">Patient intake</a></li>
+            <li><a href="emergency-hub.html">Emergency Hub</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="login.html" class="btn-login">Login</a></li>
+        </ul>
+        </div>
+     </nav>
+     <section id="home">
+        <div class="container-hero">
+            <div class="hero-content">
+                <h1>Emergency Care. <br><span class="highlight">Reimagined.</span></h1>
+                <p>Medifast connects you to the nearest emergency care facility in seconds. Advanced intake coordination for a faster, safer response.</p>
+            <div class="hero-btns">
+             <a href="#emergency" class="btn-main">Request Emergency Care</a>
+            <a href="#intake" class="btn-sub">Schedule Appointment</a>
+            </div>
+             </div>
+            <div class="hero-image">
+                <div class="pulse-circle"></div>
+            </div>
+        </div>
+
+     </section>
+
+    <section id="emergency">
+        <div class="container emergency-layout">
+            <div class="emergency-text">
+                <h2>Emergency protocol</h2>
+                <p>If you are experiencing a life-threatening emergency, follow these immediate steps:</p>
+
+
+            </div>
+            <div class="emergency-actions">
+                <div class="cards-container">
+                    <div class="card">
+                        <h3>1. Assess</h3>
+                        <p>Check safety and consciousness.</p>
+                    </div>
+                    <div class="card">
+                        <h3>1. Alert</h3>
+                        <p>Notify others and call 911.</p>
+                    </div>
+                    <div class="card">
+                        <h3>1. Prepare</h3>
+                        <p>Stay in a visible location and wait for help.</p>
+                    </div>
+                <br>
+                <button class="emergency-btn" onclick="activateEmergency()">ACTIVATE EMERGENCY RESPONSE</button>
+                </div>
+
+            </div>
+    </section>
+    <section id="intake"> 
+        <div class="container intake-layout">
+            <div class="intake-text">
+                <h2>Patient Intake Portal</h2>
+                <p>New patients and returning clients can pre-register or update their information here securely.</p>
+                <div class="alert-box">
+                    <h4>For Emegergency use</h4>
+                <p>If you require immediate medical attention, use the red button in the emergency section above.</p>
+
+                </div>
+            </div>
+            <div class="intake-form-box">
+                <h3>Patient Registration form</h3>
+                <form id="intake-form">
+                 <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name"  required>
+
+                 </div>
+                 <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason for Visit</label>
+                    <textarea id="reason" name="reason" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Intake</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container contact-layout">
+            <div class="contact-text">
+                <h2>Contact Us</h2>
+               <div class="contact-content">
+                <div class="contact-info">
+                    <p><strong>Address:</strong> Kigali, Rwanda</p>
+                    <p><strong>Phone:</strong>+250798682393</p>
+                    <p><strong>Email:</strong> <a href="mailto:h.kamana@alustudent.com">h.kamana@alustudent.com</a></p>
+                </div>
+
+               </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="container" style="justify-content: center;">
+    
+            <p>&copy; 2024 CareDesk Clinic. All rights reserved. Web infrastructure project.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-init.js"></script>
+    <script src="intake-logic.js"></script>
+    <script src="emergency-handler.js"></script>
+</body>
+</html>

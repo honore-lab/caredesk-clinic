@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="caredesklogo.jpeg" type="image/png">
+</head>
+<body class="auth-page">
+    <div class="auth-box">
+        <div>
+            <a href="index.html" class="logo">
+                <img src="#" alt="CareDesk Clinic Logo">
+            </a>
+        </div>
+        <h2>Create Account</h2>
+        <form id="signup-form">
+            <input type="text" id="fullname" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <select>
+                <option value="patient">Patient</option>
+                <option value="medical">Medical staff</option>
+            </select>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" id="registerbtn">Register</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-init.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>
