@@ -30,53 +30,73 @@ async function loadAdvisory(lat,lon)
 
     }
 
-    async function loadCenters(lat,lon) {
-        listBox.innerHTML = "<p>Searching nearby facilities...</p>";
+    async function loadCenters(lat, lon) {
+    listBox.innerHTML = "<p>Searching nearby facilities...</p>";
 
-        const q= `[out:json][timeout:20];
-        (
-        node["amenity"~"hospital|clinic"](around:10000,${lat},${lon});
-        way["amenity"~"hospital|clinic"](around:10000,${lat},${lon});
-        );
-        out center 30;`;
+    const q = `[out:json][timeout:25];
+nwr["amenity"~"^(hospital|clinic)$"](around:15000,${lat},${lon});
+out center 40;`;
+    const servers = [
+        "https://overpass-api.de/api/interpreter",
+        "https://overpass.kumi.systems/api/interpreter",
+        "https://lz4.overpass-api.de/api/interpreter"
+    ];
 
-        const servers= [
-            "https://overpass-api.de/api/interpreter",
-            "https://overpass.kumi.systems/api/interpreter",
-            "https://lz4.overpass-api.de/api/interpreter"
-        ];
+    const fromOverpass = async (url) => {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "data=" + encodeURIComponent(q),
+            signal: AbortSignal.timeout(10000)
+        });
+        if (!res.ok) throw new Error(url + " status " + res.status);
+        const data = await res.json();
+        if (data.remark || !data.elements.length) throw new Error(url + " empty/busy");
+        return data.elements.map(e => ({
+            name: e.tags?.name || "Unnamed facility",
+            type: e.tags?.amenity || "",
+            speciality: e.tags?.["healthcare:speciality"] || "",
+            phone: e.tags?.phone || "",
+            lat: e.lat ?? e.center?.lat,
+            lon: e.lon ?? e.center?.lon
+        }));
+    };
 
-        try {
-            let json = null;
-            for (const url of servers) {
-                try {
-                    const res = await fetch(url, {
-                        method: "POST",
-                        headers: { "content-Type": "application/x-www-form-urlencoded"},
-                        body : "data=" + encodeURIComponent(q)
-
-                    });
-                    if (res.ok) { json = await res.json(); break; }
-                } catch (e) {  }
-
-                }
-                if (!json) throw new Error("All Overpass servers failed");
-
-                allCenters = json.elements.map(e => ({
-                    name: e.tags?.name || "Unnamed facility",
-                    type: e.tags?.amenity || "",
-                    speciality: e.tags?.["healthcare:speciality"] || "",
-                    phone: e.tags?.phone || "",
-                    lat: e.lat ?? e.center?.lat,
-                    lon: e.lon ?? e.center?.lon 
-                }));
-                renderCenters(allCenters);
-
-            } catch (err) {
-                console.error(err);
-                listBox.innerHTML = "<p>Could not load facilities.</p>";
+    // Backup source: Nominatim (OpenStreetMap search, max 1 request/second)
+    const fromNominatim = async () => {
+        const d = 0.15; // about 16 km each way
+        const box = `${lon - d},${lat + d},${lon + d},${lat - d}`;
+        const out = [];
+        for (const kind of ["hospital", "clinic"]) {
+            const res = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${kind}&viewbox=${box}&bounded=1&limit=20`,
+                { signal: AbortSignal.timeout(10000) });
+            if (!res.ok) throw new Error("Nominatim status " + res.status);
+            (await res.json()).forEach(r => out.push({
+                name: r.name || r.display_name.split(",")[0],
+                type: kind, speciality: "", phone: "",
+                lat: r.lat, lon: r.lon
+            }));
+            await new Promise(r => setTimeout(r, 1100));
         }
+        return out;
+    };
+
+    try {
+        try {
+            allCenters = await Promise.any(servers.map(fromOverpass));
+        } catch {
+            console.warn("Overpass unavailable, using Nominatim backup");
+            allCenters = await fromNominatim();
+        }
+        allCenters = allCenters.filter(c => c.lat && c.lon);
+        renderCenters(allCenters);
+    } catch (err) {
+        console.error(err);
+        listBox.innerHTML = `<p>Could not load facilities right now.
+            <a target="_blank" rel="noopener" href="https://www.google.com/maps/search/hospitals/@${lat},${lon},14z">Open nearby hospitals in Google Maps</a></p>`;
     }
+}
 
         function renderCenters(list)
         {
